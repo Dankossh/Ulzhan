@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✏️ ЗАГОЛОВОК ВКЛАДКИ БРАУЗЕРА -->
+  <title>Улжан, пойдём в зал? 💪</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --rose:    #f2a7b8;
+      --blush:   #fce8ed;
+      --cream:   #fff9f5;
+      --mauve:   #c97b97;
+      --deep:    #7a3a54;
+      --text:    #4a2030;
+      --muted:   #9b6070;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── PETALS ─── */
+    .petal-field {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -60px;
+      width: 14px;
+      height: 20px;
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+      5%   { opacity: .7; }
+      90%  { opacity: .5; }
+      100% { transform: translateY(110vh) rotate(360deg) scale(.6); opacity: 0; }
+    }
+
+    /* ─── LAYOUT ─── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 28px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 64px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero-badge {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--mauve);
+      letter-spacing: .12em;
+      animation: fadeUp .8s ease both;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 12vw, 5.6rem);
+      font-weight: 300;
+      color: var(--deep);
+      line-height: 1;
+      animation: fadeUp .9s .1s ease both;
+    }
+
+    .hero-divider {
+      width: 64px;
+      height: 1.5px;
+      background: var(--rose);
+      border-radius: 4px;
+      animation: fadeUp .9s .2s ease both;
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 400px;
+      animation: fadeUp .9s .3s ease both;
+    }
+
+    /* ─── CARD ─── */
+    .card {
+      width: 100%;
+      background: #fff;
+      border-radius: 24px;
+      padding: 44px 40px;
+      border: 1.5px solid #f5d4dd;
+      animation: fadeUp .9s .4s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 130px; height: 130px;
+      background: radial-gradient(circle, #fce8ed 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .card-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      color: var(--deep);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    .card-body {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .card-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ─── DETAILS GRID ─── */
+    .details {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      animation: fadeUp .9s .5s ease both;
+    }
+
+    .detail-item {
+      background: var(--blush);
+      border-radius: 18px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .detail-icon {
+      font-size: 1.6rem;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .detail-label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--mauve);
+    }
+
+    .detail-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: var(--deep);
+      line-height: 1.3;
+    }
+
+    /* ─── MESSAGE ─── */
+    .letter {
+      width: 100%;
+      text-align: center;
+      animation: fadeUp .9s .6s ease both;
+    }
+
+    .letter-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 4vw, 1.7rem);
+      color: var(--deep);
+      line-height: 1.6;
+      max-width: 560px;
+      margin: 0 auto 20px;
+    }
+
+    .letter-sign {
+      font-size: .95rem;
+      color: var(--muted);
+    }
+
+    /* ─── BUTTON ─── */
+    .cta-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      animation: fadeUp .9s .7s ease both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 16px 48px;
+      border-radius: 60px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: transform .18s, box-shadow .18s;
+    }
+
+    .btn-primary {
+      background: var(--deep);
+      color: #fff;
+      letter-spacing: .04em;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(122,58,84,.25);
+    }
+
+    .btn-note {
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--rose);
+      animation: fadeUp .9s .8s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Лепестки -->
+  <div class="petal-field" id="petals"></div>
+
+  <main class="page">
+
+    <!-- ═══════════════════════════════════════
+         СЕКЦИЯ 1 — ГЕРОЙ (самое верхнее)
+         Меняй текст внутри тегов
+    ════════════════════════════════════════ -->
+    <section class="hero">
+      <!-- ✏️ Маленький текст над именем -->
+      <p class="hero-badge">приглашение в зал для</p>
+
+      <!-- ✏️ Имя -->
+      <h1 class="hero-name">Улжан</h1>
+
+      <div class="hero-divider"></div>
+
+      <!-- ✏️ Подзаголовок под именем -->
+      <p class="hero-sub">
+        Давай потренируемся вместе — будет весело и мотивирующе!
+      </p>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         СЕКЦИЯ 2 — ОСНОВНАЯ КАРТОЧКА
+    ════════════════════════════════════════ -->
+    <div class="card">
+      <!-- ✏️ Метка (маленький текст сверху) -->
+      <p class="card-label">совместная тренировка</p>
+
+      <!-- ✏️ Заголовок карточки -->
+      <h2 class="card-title">Пойдём в зал вместе?</h2>
+
+      <!-- ✏️ Описание — можно написать что угодно -->
+      <p class="card-body">
+        Приглашаю тебя на совместную тренировку в <strong>Champion GYM</strong>.
+        Хорошая музыка, правильная атмосфера — и самое главное,
+        <strong>ты рядом</strong>. Лучшая мотивация именно такая!
+      </p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════
+         СЕКЦИЯ 3 — ДЕТАЛИ (дата, место, время)
+         Можно удалить любой блок или добавить новый
+    ════════════════════════════════════════ -->
+    <div class="details">
+
+      <div class="detail-item">
+        <div class="detail-icon">📅</div>
+        <!-- ✏️ -->
+        <p class="detail-label">Дата</p>
+        <p class="detail-value">Пятница, 16 мая</p>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-icon">🕖</div>
+        <!-- ✏️ -->
+        <p class="detail-label">Время</p>
+        <p class="detail-value">19:00</p>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-icon">🏋️</div>
+        <!-- ✏️ -->
+        <p class="detail-label">Место</p>
+        <p class="detail-value">Champion GYM</p>
+      </div>
+
+    </div>
+
+
+    <!-- ═══════════════════════════════════════
+         СЕКЦИЯ 4 — ЛИЧНОЕ ПОСЛАНИЕ
+    ════════════════════════════════════════ -->
+    <div class="letter">
+      <!-- ✏️ Цитата / послание -->
+      <p class="letter-quote">
+        «Тренироваться веселее вдвоём —
+        особенно если этот второй — ты.»
+      </p>
+      <!-- ✏️ Подпись -->
+      <p class="letter-sign">— жду тебя в зале 💪</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════
+         СЕКЦИЯ 5 — КНОПКА
+    ════════════════════════════════════════ -->
+    <div class="cta-wrap">
+      <!-- ✏️ Текст кнопки и ссылка (href="#" = ничего не делает)
+           Можно поставить ссылку на Telegram, WhatsApp и т.д.
+           Например: href="https://t.me/твой_ник" -->
+      <a class="btn btn-primary" href="#" id="yesBtn">
+        Да, приду! 💪
+      </a>
+      <!-- ✏️ Маленькая подсказка под кнопкой -->
+      <p class="btn-note">Нажми, чтобы я знал(а) 🤍</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════
+         ФУТЕР
+    ════════════════════════════════════════ -->
+    <!-- ✏️ Маленький текст внизу -->
+    <p class="footer">сделано специально для тебя ✦</p>
+
+  </main>
+
+
+  <script>
+    /* ─── ЛЕПЕСТКИ ─── */
+    const field = document.getElementById('petals');
+    const colors = ['#f2a7b8','#f7c4ce','#faddde','#e8a5bc','#f0b8c8'];
+    const count  = 28;
+
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      const size = 10 + Math.random() * 10;
+      Object.assign(p.style, {
+        left:            Math.random() * 100 + '%',
+        width:           size + 'px',
+        height:          size * 1.4 + 'px',
+        background:      colors[Math.floor(Math.random() * colors.length)],
+        animationDuration: (7 + Math.random() * 10) + 's',
+        animationDelay:  (Math.random() * 14) + 's',
+        borderRadius:    Math.random() > .5 ? '50% 0 50% 0' : '0 50% 0 50%',
+        opacity:         0,
+      });
+      field.appendChild(p);
+    }
+
+    /* ─── КНОПКА ─── */
+    document.getElementById('yesBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      /* ✏️ Измени текст сообщения */
+      this.textContent = 'Ура! До встречи в зале 💪';
+      this.style.background = '#c97b97';
+      this.style.pointerEvents = 'none';
+    });
+  </script>
+
+</body>
+</html>
